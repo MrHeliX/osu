@@ -18,12 +18,6 @@ namespace osu.Game.Rulesets.Osu.Difficulty
         [JsonProperty("speed_strain")]
         public double SpeedStrain { get; set; }
 
-        [JsonProperty("flashlight_rating")]
-        public double FlashlightRating { get; set; }
-
-        [JsonProperty("slider_factor")]
-        public double SliderFactor { get; set; }
-
         [JsonProperty("approach_rate")]
         public double ApproachRate { get; set; }
 
@@ -49,11 +43,6 @@ namespace osu.Game.Rulesets.Osu.Difficulty
             yield return (ATTRIB_ID_APPROACH_RATE, ApproachRate);
             yield return (ATTRIB_ID_MAX_COMBO, MaxCombo);
             yield return (ATTRIB_ID_STRAIN, StarRating);
-
-            if (ShouldSerializeFlashlightRating())
-                yield return (ATTRIB_ID_FLASHLIGHT, FlashlightRating);
-
-            yield return (ATTRIB_ID_SLIDER_FACTOR, SliderFactor);
         }
 
         public override void FromDatabaseAttributes(IReadOnlyDictionary<int, double> values)
@@ -66,12 +55,6 @@ namespace osu.Game.Rulesets.Osu.Difficulty
             ApproachRate = values[ATTRIB_ID_APPROACH_RATE];
             MaxCombo = (int)values[ATTRIB_ID_MAX_COMBO];
             StarRating = values[ATTRIB_ID_STRAIN];
-            FlashlightRating = values.GetValueOrDefault(ATTRIB_ID_FLASHLIGHT);
-            SliderFactor = values[ATTRIB_ID_SLIDER_FACTOR];
         }
-
-        // Used implicitly by Newtonsoft.Json to not serialize flashlight property in some cases.
-        [UsedImplicitly]
-        public bool ShouldSerializeFlashlightRating() => Mods.Any(m => m is ModFlashlight);
     }
 }
