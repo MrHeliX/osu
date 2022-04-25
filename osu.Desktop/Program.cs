@@ -34,7 +34,7 @@ namespace osu.Desktop
             string cwd = Environment.CurrentDirectory;
 
             string gameName = base_game_name;
-            bool tournamentClient = false;
+            bool tournamentClient = true;
 
             foreach (string arg in args)
             {

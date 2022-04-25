@@ -50,9 +50,13 @@ namespace osu.Game.Tournament.Models
 
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
 
+        public Bindable<string> TotalPoints = new Bindable<string>(string.Empty);
+
+        public Bindable<string> Opponent = new Bindable<string>(string.Empty);
+
         public Bindable<int> LastYearPlacing = new BindableInt
         {
-            MinValue = 1,
+            MinValue = 0,
             MaxValue = 64
         };
 

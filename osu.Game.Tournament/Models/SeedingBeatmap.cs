@@ -21,5 +21,11 @@ namespace osu.Game.Tournament.Models
             MinValue = 1,
             MaxValue = 64
         };
+
+        public Bindable<float> Points = new BindableFloat
+        {
+            MinValue = 0f,
+            MaxValue = 64f
+        };
     }
 }
