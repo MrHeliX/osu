@@ -107,6 +107,12 @@ namespace osu.Game.Tournament.Screens.Gameplay
                             Text = "Toggle chat",
                             Action = () => { State.Value = State.Value == TourneyState.Idle ? TourneyState.Playing : TourneyState.Idle; }
                         },
+                        new TourneyButton
+                        {
+                            RelativeSizeAxes = Axes.X,
+                            Text = "Refresh pickems",
+                            Action = () => { CurrentMatch.Value.RetrievePickemsResults(); }
+                        },
                         new SettingsSlider<int>
                         {
                             LabelText = "Chroma width",
@@ -148,6 +154,7 @@ namespace osu.Game.Tournament.Screens.Gameplay
                 return;
 
             warmup.Value = match.NewValue.Team1Score.Value + match.NewValue.Team2Score.Value == 0;
+            match.NewValue.RetrievePickemsResults();
             scheduledOperation?.Cancel();
         }
 

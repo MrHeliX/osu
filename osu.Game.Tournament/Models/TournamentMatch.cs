@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
+using System.Net;
 using Newtonsoft.Json;
 using osu.Framework.Bindables;
 using osu.Game.Tournament.Screens.Ladder.Components;
@@ -17,7 +19,15 @@ namespace osu.Game.Tournament.Models
     [Serializable]
     public class TournamentMatch
     {
+        public class MatchPickems
+        {
+            public float player1 { get; set; }
+            public float player2 { get; set; }
+        }
+
         public int ID;
+
+        public int CustomId;
 
         public List<string> Acronyms
         {
@@ -122,6 +132,27 @@ namespace osu.Game.Tournament.Models
             Team2.Value = null;
             Completed.Value = false;
             PicksBans.Clear();
+        }
+
+        public void RetrievePickemsResults()
+        {
+            string url = @"https://baby-api.huismetbenen.nl/pickems/get-match-pickems/" + CustomId;
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.Headers.Add("x-tourney-id", "1");
+            request.Method = "GET";
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream responseStream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(responseStream))
+            {
+                MatchPickems pickems = JsonConvert.DeserializeObject<MatchPickems>(reader.ReadToEnd());
+                Team1.Value.PickemsRate.Value = pickems.player1;
+                Team2.Value.PickemsRate.Value = pickems.player2;
+
+                Team1.Value.PickemsRate.TriggerChange();
+                Team2.Value.PickemsRate.TriggerChange();
+            }
         }
     }
 }

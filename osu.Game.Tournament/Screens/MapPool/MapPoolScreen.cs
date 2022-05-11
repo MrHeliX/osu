@@ -52,7 +52,7 @@ namespace osu.Game.Tournament.Screens.MapPool
                     Spacing = new Vector2(10, 10),
                     Direction = FillDirection.Vertical,
                     RelativeSizeAxes = Axes.X,
-                    AutoSizeAxes = Axes.Y,
+                    AutoSizeAxes = Axes.Y
                 },
                 new ControlPanel
                 {
@@ -239,7 +239,7 @@ namespace osu.Game.Tournament.Screens.MapPool
                         flowCount = 0;
                     }
 
-                    if (++flowCount > 2)
+                    if (++flowCount > 3)
                     {
                         totalRows++;
                         flowCount = 1;

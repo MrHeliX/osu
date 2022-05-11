@@ -36,7 +36,7 @@ namespace osu.Game.Tournament.Components
             Beatmap = beatmap;
             this.mod = mod;
 
-            Width = 400;
+            Width = 300;
             Height = HEIGHT;
         }
 

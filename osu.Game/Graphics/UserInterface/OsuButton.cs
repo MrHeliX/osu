@@ -49,7 +49,7 @@ namespace osu.Game.Graphics.UserInterface
         protected Box Background;
         protected SpriteText SpriteText;
 
-        public OsuButton(HoverSampleSet? hoverSounds = HoverSampleSet.Button)
+        public OsuButton(HoverSampleSet? hoverSounds = null)
         {
             Height = 40;
 
@@ -81,9 +81,6 @@ namespace osu.Game.Graphics.UserInterface
                     SpriteText = CreateText(),
                 }
             });
-
-            if (hoverSounds.HasValue)
-                AddInternal(new HoverClickSounds(hoverSounds.Value));
         }
 
         [BackgroundDependencyLoader]

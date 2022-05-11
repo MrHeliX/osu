@@ -60,6 +60,8 @@ namespace osu.Game.Tournament.Models
             MaxValue = 64
         };
 
+        public Bindable<float> PickemsRate = new Bindable<float>(-1);
+
         [JsonProperty]
         public BindableList<APIUser> Players { get; set; } = new BindableList<APIUser>();
 
