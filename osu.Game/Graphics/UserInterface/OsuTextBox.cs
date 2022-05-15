@@ -76,10 +76,10 @@ namespace osu.Game.Graphics.UserInterface
             for (int i = 0; i < textAddedSamples.Length; i++)
                 textAddedSamples[i] = audio.Samples.Get($@"Keyboard/key-press-{1 + i}");
 
-            capsTextAddedSample = audio.Samples.Get(@"Keyboard/key-caps");
-            textRemovedSample = audio.Samples.Get(@"Keyboard/key-delete");
-            textCommittedSample = audio.Samples.Get(@"Keyboard/key-confirm");
-            caretMovedSample = audio.Samples.Get(@"Keyboard/key-movement");
+            capsTextAddedSample = null;
+            textRemovedSample = null;
+            textCommittedSample = null;
+            caretMovedSample = null;
         }
 
         private Color4 selectionColour;

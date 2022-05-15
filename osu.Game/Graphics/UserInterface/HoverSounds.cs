@@ -29,14 +29,16 @@ namespace osu.Game.Graphics.UserInterface
         [BackgroundDependencyLoader]
         private void load(AudioManager audio)
         {
-            sampleHover = audio.Samples.Get($@"UI/{SampleSet.GetDescription()}-hover")
-                          ?? audio.Samples.Get($@"UI/{HoverSampleSet.Default.GetDescription()}-hover");
+            sampleHover = null;
         }
 
         public override void PlayHoverSample()
         {
-            sampleHover.Frequency.Value = 0.98 + RNG.NextDouble(0.04);
-            sampleHover.Play();
+            if (sampleHover != null)
+            {
+                sampleHover.Frequency.Value = 0.98 + RNG.NextDouble(0.04);
+                sampleHover.Play();
+            }
         }
     }
 }
