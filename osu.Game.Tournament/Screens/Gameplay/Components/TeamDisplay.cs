@@ -58,7 +58,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
             team.PickemsRate.ValueChanged += val =>
             {
-                pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(val.NewValue, 2).ToString()}%";
+                pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(val.NewValue, 2)}%";
             };
 
             InternalChild = new Container
@@ -119,7 +119,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                                 Origin = anchor,
                                                 Anchor = anchor,
                                             },
-                                            new TournamentSpriteTextWithBackground(match?.PicksBans?.)
                                         }
                                     },
                                     pickemsSprite
@@ -129,19 +128,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                     },
                 }
             };
-        }
-
-        private string getPlayersBans(TournamentMatch match, TeamColour colour)
-        {
-            string[] maps = new string[2];
-            foreach (var e in match.PicksBans)
-            {
-                if (e.Team == colour)
-                {
-                    maps.P
-                }
-            }
-            return "";
         }
 
         protected override void LoadComplete()

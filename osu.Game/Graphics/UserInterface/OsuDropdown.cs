@@ -58,8 +58,8 @@ namespace osu.Game.Graphics.UserInterface
                 HoverColour = colourProvider?.Light4 ?? colours.PinkDarker;
                 SelectionColour = colourProvider?.Background3 ?? colours.PinkDarker.Opacity(0.5f);
 
-                sampleOpen = audio.Samples.Get(@"UI/dropdown-open");
-                sampleClose = audio.Samples.Get(@"UI/dropdown-close");
+                sampleOpen = null;
+                sampleClose = null;
             }
 
             // todo: this shouldn't be required after https://github.com/ppy/osu-framework/issues/4519 is fixed.
