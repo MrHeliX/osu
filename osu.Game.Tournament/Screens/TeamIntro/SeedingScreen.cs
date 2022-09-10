@@ -155,7 +155,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                             Children = new Drawable[]
                             {
                                 new TournamentSpriteText { Text = beatmap.Score.ToString("#,0"), Colour = TournamentGame.TEXT_COLOUR, Width = 80, Font = OsuFont.Torus.With(size: 18) },
-                                new TournamentSpriteText { Text = beatmap.Points.Value + " | #" + beatmap.Seed.Value.ToString("#,0"), Colour = TournamentGame.TEXT_COLOUR, Font = OsuFont.Torus.With(weight: FontWeight.Regular, size: 18) },
+                                new TournamentSpriteText { Text = beatmap.Points.Value + "p | #" + beatmap.Seed.Value.ToString("#,0"), Colour = TournamentGame.TEXT_COLOUR, Font = OsuFont.Torus.With(weight: FontWeight.Regular, size: 18) },
                             }
                         },
                     };
@@ -246,14 +246,14 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                         Children = new Drawable[]
                         {
                             new TeamDisplay(team) { Margin = new MarginPadding { Bottom = 30 } },
-                            new RowDisplay("Rank:", $"#{team.Players[0]?.Statistics?.GlobalRank:#,0}"),
-                            new RowDisplay((team.Players[0]?.Id == 22419711 ? "AW" : "NL") + " Rank:", $"#{team.Players[0]?.Statistics?.CountryRank:#,0}"),
-                            new RowDisplay("DOC 2021 - div 2:", team.LastYearPlacing.Value > 0 ? $"#{team.LastYearPlacing:#,0}" : "-"),
+                            new RowDisplay("Average Rank:", $"#{team.AverageRank:#,0}"),
+                            new RowDisplay("PNK 2021:", team.LastYearPlacing.Value == 999 ? "Didn't qualify" : (team.LastYearPlacing.Value > 0 ? $"#{team.LastYearPlacing:#,0}" : "-")),
+                            new RowDisplay("Best result:", team.BestPlacing.Value == 999 ? $"Didn't qualify ({team.BestPlacingYear}" : team.BestPlacing.Value > 0 ? $"#{team.BestPlacing:#,0} ({team.BestPlacingYear})" : "-"),
                             new Container { Margin = new MarginPadding { Bottom = 30 } },
 
                             new TournamentSpriteText
                             {
-                                Text = team.TotalPoints.Value + " punten",
+                                Text = team.TotalPoints.Value + " points",
                                 Font = OsuFont.Torus.With(size: 48)
                             },
                             new TournamentSpriteText
@@ -261,20 +261,28 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                 Text = "Seed #" + team.Seed.Value,
                                 Font = OsuFont.Torus.With(size: 26)
                             },
-
-                            new Container { Margin = new MarginPadding { Bottom = 15 } },
-
                             new TournamentSpriteText
                             {
-                                Text = "Tegenstander: " + team.Opponent.Value,
+                                Text = "Opponent: " + team.Opponent.Value,
                                 Font = OsuFont.Torus.With(size: 26)
-                            }
+                            },
+
+                            new Container { Margin = new MarginPadding { Bottom = 15 } }
                         }
                     },
                 };
 
-                // foreach (var p in team.Players)
-                //    fill.Add(new RowDisplay(p.Username, p.Statistics?.GlobalRank?.ToString("\\##,0") ?? "-"));
+                if (team.Players.Count > 0)
+                {
+                    fill.Add(new TournamentSpriteText
+                    {
+                        Text = "Players",
+                        Font = OsuFont.Torus.With(size: 26)
+                    });
+
+                    foreach (var p in team.Players)
+                        fill.Add(new RowDisplay(p.Username, p.Statistics?.GlobalRank?.ToString("\\##,0") ?? "-"));
+                }
             }
 
             internal class RowDisplay : CompositeDrawable

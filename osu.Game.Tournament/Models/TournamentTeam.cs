@@ -57,8 +57,16 @@ namespace osu.Game.Tournament.Models
         public Bindable<int> LastYearPlacing = new BindableInt
         {
             MinValue = 0,
-            MaxValue = 64
+            MaxValue = 999
         };
+
+        public Bindable<int> BestPlacing = new BindableInt
+        {
+            MinValue = 0,
+            MaxValue = 999
+        };
+
+        public Bindable<string> BestPlacingYear = new Bindable<string>(string.Empty);
 
         public Bindable<float> PickemsRate = new Bindable<float>(-1);
 

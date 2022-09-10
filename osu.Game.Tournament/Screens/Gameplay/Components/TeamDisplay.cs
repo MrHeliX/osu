@@ -56,10 +56,13 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                 Anchor = anchor
             };
 
-            team.PickemsRate.ValueChanged += val =>
+            if (team != null)
             {
-                pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(val.NewValue, 2)}%";
-            };
+                team.PickemsRate.ValueChanged += val =>
+                {
+                    pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(val.NewValue, 2)}%";
+                };
+            }
 
             InternalChild = new Container
             {
