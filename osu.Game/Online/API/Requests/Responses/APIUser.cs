@@ -183,6 +183,9 @@ namespace osu.Game.Online.API.Requests.Responses
         [JsonProperty(@"kudosu")]
         public KudosuCount Kudosu;
 
+        [JsonProperty(@"QualifiersPerformance")]
+        public double QualifiersPerformance;
+
         public class KudosuCount
         {
             [JsonProperty(@"total")]

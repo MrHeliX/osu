@@ -32,21 +32,7 @@ namespace osu.Game.Tournament.Models
 
         public BindableList<SeedingResult> SeedingResults = new BindableList<SeedingResult>();
 
-        public double AverageRank
-        {
-            get
-            {
-                int[] ranks = Players.Select(p => p.Statistics?.GlobalRank)
-                                     .Where(i => i.HasValue)
-                                     .Select(i => i.Value)
-                                     .ToArray();
-
-                if (ranks.Length == 0)
-                    return 0;
-
-                return ranks.Average();
-            }
-        }
+        public Bindable<double> AverageRank = new Bindable<double>(0);
 
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
 
@@ -69,6 +55,10 @@ namespace osu.Game.Tournament.Models
         public Bindable<string> BestPlacingYear = new Bindable<string>(string.Empty);
 
         public Bindable<float> PickemsRate = new Bindable<float>(-1);
+
+        public Bindable<int> QualifiersAverageScore = new Bindable<int>(0);
+
+        public Bindable<double> QualifiersCarryFactor = new Bindable<double>(0);
 
         [JsonProperty]
         public BindableList<APIUser> Players { get; set; } = new BindableList<APIUser>();

@@ -246,9 +246,9 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                         Children = new Drawable[]
                         {
                             new TeamDisplay(team) { Margin = new MarginPadding { Bottom = 30 } },
-                            new RowDisplay("Average Rank:", $"#{team.AverageRank:#,0}"),
-                            new RowDisplay("PNK 2021:", team.LastYearPlacing.Value == 999 ? "Didn't qualify" : (team.LastYearPlacing.Value > 0 ? $"#{team.LastYearPlacing:#,0}" : "-")),
-                            new RowDisplay("Best result:", team.BestPlacing.Value == 999 ? $"Didn't qualify ({team.BestPlacingYear}" : team.BestPlacing.Value > 0 ? $"#{team.BestPlacing:#,0} ({team.BestPlacingYear})" : "-"),
+                            new RowDisplay("Average Rank:", $"#{team.AverageRank.Value.ToString("#,0")}"),
+                            new RowDisplay("PNK 2021:", team.LastYearPlacing.Value == 999 ? "NQ" : (team.LastYearPlacing.Value > 0 ? $"#{team.LastYearPlacing:#,0}" : "-")),
+                            new RowDisplay("Best result:", team.BestPlacing.Value == 999 ? $"NQ ({team.BestPlacingYear})" : team.BestPlacing.Value > 0 ? $"#{team.BestPlacing:#,0} ({team.BestPlacingYear})" : "-"),
                             new Container { Margin = new MarginPadding { Bottom = 30 } },
 
                             new TournamentSpriteText
@@ -266,8 +266,19 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                                 Text = "Opponent: " + team.Opponent.Value,
                                 Font = OsuFont.Torus.With(size: 26)
                             },
+                            new Container { Margin = new MarginPadding { Bottom = 15 } },
+                            new TournamentSpriteText
+                            {
+                                Text = "Average score: " + team.QualifiersAverageScore.Value.ToString("#,0"),
+                                Font = OsuFont.Torus.With(size: 20)
+                            },
+                            new TournamentSpriteText
+                            {
+                                Text = "Carry factor: " + team.QualifiersCarryFactor.Value.ToString("0.##"),
+                                Font = OsuFont.Torus.With(size: 20)
+                            },
 
-                            new Container { Margin = new MarginPadding { Bottom = 15 } }
+                            new Container { Margin = new MarginPadding { Bottom = 20 } }
                         }
                     },
                 };
@@ -281,7 +292,8 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                     });
 
                     foreach (var p in team.Players)
-                        fill.Add(new RowDisplay(p.Username, p.Statistics?.GlobalRank?.ToString("\\##,0") ?? "-"));
+                        // fill.Add(new RowDisplay(p.Username, p?.Statistics?.GlobalRank < 9999999 ? p.Statistics?.GlobalRank?.ToString("\\##,0") : "Unranked"));
+                        fill.Add(new RowDisplay(p.Username, p.QualifiersPerformance.ToString("0.###")));
                 }
             }
 

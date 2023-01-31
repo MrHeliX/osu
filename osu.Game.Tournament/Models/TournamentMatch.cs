@@ -21,8 +21,8 @@ namespace osu.Game.Tournament.Models
     {
         public class MatchPickems
         {
-            public float player1 { get; set; }
-            public float player2 { get; set; }
+            public float team1 { get; set; }
+            public float team2 { get; set; }
         }
 
         public int ID;
@@ -136,10 +136,10 @@ namespace osu.Game.Tournament.Models
 
         public void RetrievePickemsResults()
         {
-            string url = @"https://baby-api.huismetbenen.nl/pickems/get-match-pickems/" + CustomId;
+            string url = @"https://pnk-api.huismetbenen.nl/pickems/get-match-pickems/" + CustomId;
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/json";
-            request.Headers.Add("x-tourney-id", "1");
+            request.Headers.Add("x-tourney-id", "6");
             request.Method = "GET";
 
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
@@ -147,11 +147,17 @@ namespace osu.Game.Tournament.Models
             using (StreamReader reader = new StreamReader(responseStream))
             {
                 MatchPickems pickems = JsonConvert.DeserializeObject<MatchPickems>(reader.ReadToEnd());
-                Team1.Value.PickemsRate.Value = pickems.player1;
-                Team2.Value.PickemsRate.Value = pickems.player2;
+                if (Team1.Value != null)
+                {
+                    Team1.Value.PickemsRate.Value = pickems.team1;
+                    Team1.Value.PickemsRate.TriggerChange();
+                }
 
-                Team1.Value.PickemsRate.TriggerChange();
-                Team2.Value.PickemsRate.TriggerChange();
+                if (Team2.Value != null)
+                {
+                    Team2.Value.PickemsRate.Value = pickems.team2;
+                    Team2.Value.PickemsRate.TriggerChange();
+                }
             }
         }
     }
