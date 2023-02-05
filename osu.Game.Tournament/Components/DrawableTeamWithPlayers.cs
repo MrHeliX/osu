@@ -28,7 +28,6 @@ namespace osu.Game.Tournament.Components
                     Spacing = new Vector2(30),
                     Children = new Drawable[]
                     {
-                        new DrawableTeamTitleWithHeader(team, colour),
                         new FillFlowContainer
                         {
                             AutoSizeAxes = Axes.Both,

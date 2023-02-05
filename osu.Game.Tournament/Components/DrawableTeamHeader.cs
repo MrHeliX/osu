@@ -10,12 +10,12 @@ namespace osu.Game.Tournament.Components
 {
     public partial class DrawableTeamHeader : TournamentSpriteTextWithBackground
     {
-        public DrawableTeamHeader(TeamColour colour)
+        public DrawableTeamHeader(TeamColour colour, string name = null)
         {
             Background.Colour = TournamentGame.GetTeamColour(colour);
 
             Text.Colour = TournamentGame.TEXT_COLOUR;
-            Text.Text = $"Team {colour}".ToUpperInvariant();
+            Text.Text = $"{name ?? colour.ToString()}".ToUpperInvariant();
             Text.Scale = new Vector2(0.6f);
         }
     }

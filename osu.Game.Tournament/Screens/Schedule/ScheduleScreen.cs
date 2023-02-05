@@ -75,7 +75,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                                                         Colour = Color4.White,
                                                         Size = new Vector2(50, 10),
                                                     },
-                                                    new TournamentSpriteTextWithBackground("Schedule")
+                                                    new TournamentSpriteTextWithBackground("Schema")
                                                     {
                                                         X = 60,
                                                         Scale = new Vector2(0.8f)
@@ -135,7 +135,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                             Direction = FillDirection.Horizontal,
                             Children = new Drawable[]
                             {
-                                new ScheduleContainer("recent matches")
+                                new ScheduleContainer("Recente wedstrijden")
                                 {
                                     RelativeSizeAxes = Axes.Both,
                                     Width = 0.4f,
@@ -146,7 +146,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                                                                .Take(8)
                                                                .Select(p => new ScheduleMatch(p))
                                 },
-                                new ScheduleContainer("upcoming matches")
+                                new ScheduleContainer("Komende wedstrijden")
                                 {
                                     RelativeSizeAxes = Axes.Both,
                                     Width = 0.6f,
@@ -155,7 +155,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                             }
                         }
                     },
-                    comingUpNext = new ScheduleContainer("coming up next")
+                    comingUpNext = new ScheduleContainer("Volgende wedstrijd")
                     {
                         RelativeSizeAxes = Axes.Both,
                         Height = 0.25f,
@@ -243,7 +243,7 @@ namespace osu.Game.Tournament.Screens.Schedule
                         Colour = OsuColour.Gray(0.7f),
                         Alpha = conditional ? 0.6f : 1,
                         Margin = new MarginPadding { Horizontal = 10, Vertical = 5 },
-                        Text = match.Date.Value.ToUniversalTime().ToString("HH:mm UTC") + (conditional ? " (conditional)" : "")
+                        Text = match.Date.Value.ToLocalTime().ToString("HH:mm") + (conditional ? " (conditional)" : "")
                     });
                 }
             }
@@ -257,8 +257,8 @@ namespace osu.Game.Tournament.Screens.Schedule
             }
 
             protected override string Format() => Date < DateTimeOffset.Now
-                ? $"Started {base.Format()}"
-                : $"Starting {base.Format()}";
+                ? $"{base.Format()} gestart"
+                : $"Start {base.Format()}";
         }
 
         public partial class ScheduleContainer : Container

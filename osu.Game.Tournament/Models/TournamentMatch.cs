@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Net.Http;
 using Newtonsoft.Json;
 using osu.Framework.Bindables;
 using osu.Game.Tournament.Screens.Ladder.Components;
@@ -19,7 +20,16 @@ namespace osu.Game.Tournament.Models
     [Serializable]
     public class TournamentMatch
     {
+        public class MatchPickems
+        {
+            public float Player1 { get; set; }
+            public float Player2 { get; set; }
+        }
+
+        private static readonly HttpClient client = new HttpClient();
+
         public int ID;
+        public int CustomId;
 
         public List<string> Acronyms
         {
@@ -127,6 +137,28 @@ namespace osu.Game.Tournament.Models
             Team2.Value = null;
             Completed.Value = false;
             PicksBans.Clear();
+        }
+
+        public async void RetrievePickemsResults()
+        {
+            if (CustomId == 0) return;
+            string url = @"https://ndc-api.huismetbenen.nl/pickems/get-match-pickems/" + CustomId;
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("ContentType", "application/json");
+            requestMessage.Headers.Add("x-tourney-id", "7");
+            var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+            var result = response.Content.ReadAsStringAsync();
+
+            if (result != null)
+            {
+                MatchPickems pickems = JsonConvert.DeserializeObject<MatchPickems>(result.Result);
+                Team1.Value.PickemsRate.Value = pickems.Player1;
+                Team2.Value.PickemsRate.Value = pickems.Player2;
+
+                Team1.Value.PickemsRate.TriggerChange();
+                Team2.Value.PickemsRate.TriggerChange();
+            }
         }
     }
 }
