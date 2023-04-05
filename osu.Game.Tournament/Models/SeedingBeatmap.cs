@@ -13,12 +13,20 @@ namespace osu.Game.Tournament.Models
         [JsonProperty("BeatmapInfo")]
         public TournamentBeatmap? Beatmap;
 
+        public Bindable<string> Acronym = new Bindable<string>(string.Empty);
+
         public long Score;
 
         public Bindable<int> Seed = new BindableInt
         {
             MinValue = 1,
             MaxValue = 256
+        };
+
+        public Bindable<float> Points = new BindableFloat
+        {
+            MinValue = 0f,
+            MaxValue = 64f
         };
     }
 }

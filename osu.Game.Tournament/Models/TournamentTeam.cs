@@ -49,11 +49,21 @@ namespace osu.Game.Tournament.Models
             }
         }
 
+        public Bindable<int> GlobalRank = new Bindable<int>(0);
+
+        public Bindable<int> CountryRank = new Bindable<int>(0);
+
+        public Bindable<string> Country = new Bindable<string>(string.Empty);
+
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
+
+        public Bindable<string> TotalPoints = new Bindable<string>(string.Empty);
+
+        public Bindable<string> Opponent = new Bindable<string>(string.Empty);
 
         public Bindable<int> LastYearPlacing = new BindableInt
         {
-            MinValue = 1,
+            MinValue = 0,
             MaxValue = 256
         };
 
