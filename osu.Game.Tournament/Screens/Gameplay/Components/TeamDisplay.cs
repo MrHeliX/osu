@@ -9,6 +9,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Game.Tournament.Components;
 using osu.Game.Tournament.Models;
 using osuTK;
+using System;
 
 namespace osu.Game.Tournament.Screens.Gameplay.Components
 {
@@ -16,7 +17,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
     {
         private readonly TeamScore score;
 
-        private readonly TournamentSpriteTextWithBackground teamText;
+        private TournamentSpriteTextWithBackground pickemsSprite;
 
         private readonly Bindable<string> teamName = new Bindable<string>("???");
 
@@ -37,7 +38,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             }
         }
 
-        public TeamDisplay(TournamentTeam team, TeamColour colour, Bindable<int?> currentTeamScore, int pointsToWin)
+        public TeamDisplay(TournamentTeam team, TournamentMatch match, TeamColour colour, Bindable<int?> currentTeamScore, int pointsToWin)
             : base(team)
         {
             AutoSizeAxes = Axes.Both;
@@ -52,6 +53,22 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             Flag.Anchor = anchor;
 
             Margin = new MarginPadding(20);
+
+            pickemsSprite = new TournamentSpriteTextWithBackground("")
+            {
+                Scale = new Vector2(0.3f),
+                Origin = anchor,
+                Anchor = anchor
+            };
+
+            if (team != null)
+            {
+                team.PickemsRate.BindValueChanged(v => pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(v.NewValue, 2)}%");
+                team.PickemsRate.ValueChanged += val =>
+                {
+                    pickemsSprite.Text.Text = $"Pickem rate: {Math.Round(val.NewValue, 2)}%";
+                };
+            }
 
             InternalChild = new Container
             {
@@ -84,9 +101,9 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                         Anchor = anchor,
                                         Children = new Drawable[]
                                         {
-                                            new DrawableTeamHeader(colour)
+                                            new DrawableTeamHeader(colour, team?.Players[0].Username)
                                             {
-                                                Scale = new Vector2(0.75f),
+                                                Scale = new Vector2(0.85f),
                                                 Origin = anchor,
                                                 Anchor = anchor,
                                             },
@@ -97,12 +114,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                             }
                                         }
                                     },
-                                    teamText = new TournamentSpriteTextWithBackground
-                                    {
-                                        Scale = new Vector2(0.5f),
-                                        Origin = anchor,
-                                        Anchor = anchor,
-                                    },
+                                    pickemsSprite
                                 }
                             },
                         }
@@ -120,8 +132,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
             if (Team != null)
                 teamName.BindTo(Team.FullName);
-
-            teamName.BindValueChanged(name => teamText.Text.Text = name.NewValue, true);
         }
 
         private void updateDisplay()

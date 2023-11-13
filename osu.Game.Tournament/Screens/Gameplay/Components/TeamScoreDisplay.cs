@@ -97,7 +97,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
 
             InternalChildren = new Drawable[]
             {
-                teamDisplay = new TeamDisplay(team.NewValue, teamColour, currentTeamScore, currentMatch.Value?.PointsToWin ?? 0),
+                teamDisplay = new TeamDisplay(team.NewValue, currentMatch.Value, teamColour, currentTeamScore, currentMatch.Value?.PointsToWin ?? 0),
             };
 
             teamDisplay.ShowScore = wasShowingScores;

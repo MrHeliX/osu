@@ -237,8 +237,6 @@ namespace osu.Game.Graphics.Cursor
             channel.Balance.Value = ((activeCursor.X / DrawWidth) * 2 - 1) * OsuGameBase.SFX_STEREO_STRENGTH;
             channel.Frequency.Value = baseFrequency - (random_range / 2f) + RNG.NextDouble(random_range);
             channel.Volume.Value = baseFrequency;
-
-            channel.Play();
         }
 
         public partial class Cursor : Container

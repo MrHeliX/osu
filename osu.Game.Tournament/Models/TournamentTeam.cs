@@ -67,6 +67,10 @@ namespace osu.Game.Tournament.Models
             MaxValue = 256
         };
 
+        public Bindable<float> PickemsRate = new Bindable<float>(-1);
+
+        public Bindable<float[]> PickemsDetails = new Bindable<float[]>(new float[10]);
+
         [JsonProperty]
         public BindableList<TournamentUser> Players { get; set; } = new BindableList<TournamentUser>();
 

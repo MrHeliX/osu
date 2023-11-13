@@ -3,9 +3,7 @@
 
 #nullable disable
 
-using System;
 using System.Diagnostics;
-using NuGet.Versioning;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
