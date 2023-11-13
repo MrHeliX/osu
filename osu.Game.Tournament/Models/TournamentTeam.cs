@@ -31,29 +31,29 @@ namespace osu.Game.Tournament.Models
 
         public BindableList<SeedingResult> SeedingResults = new BindableList<SeedingResult>();
 
-        public double AverageRank
-        {
-            get
-            {
-                int[] ranks = Players.Select(p => p.Rank)
-                                     .Where(i => i.HasValue)
-                                     .Select(i => i!.Value)
-                                     .ToArray();
-
-                if (ranks.Length == 0)
-                    return 0;
-
-                return ranks.Average();
-            }
-        }
-
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
+
+        public Bindable<string> TotalPoints = new Bindable<string>(string.Empty);
+
+        public Bindable<string> Opponent = new Bindable<string>(string.Empty);
 
         public Bindable<int> LastYearPlacing = new BindableInt
         {
             MinValue = 0,
             MaxValue = 256
         };
+
+        public Bindable<int> BestPlacing = new BindableInt
+        {
+            MinValue = 0,
+            MaxValue = 256
+        };
+
+        public Bindable<string> BestPlacingYear = new Bindable<string>(string.Empty);
+
+        public Bindable<int> QualifiersAverageScore = new BindableInt(0);
+
+        public Bindable<double> QualifiersCarryFactor = new Bindable<double>(0);
 
         [JsonProperty]
         public BindableList<TournamentUser> Players { get; } = new BindableList<TournamentUser>();
