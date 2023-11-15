@@ -109,16 +109,8 @@ namespace osu.Game.Tournament.Components
 
             double bpm = beatmap.BPM;
             double length = beatmap.Length;
-            string hardRockExtra = "";
-            string srExtra = "";
 
             float ar = beatmap.Difficulty.ApproachRate;
-
-            if ((mods & LegacyMods.HardRock) > 0)
-            {
-                hardRockExtra = "*";
-                srExtra = "*";
-            }
 
             if ((mods & LegacyMods.DoubleTime) > 0)
             {
@@ -128,7 +120,6 @@ namespace osu.Game.Tournament.Components
 
                 bpm *= 1.5f;
                 length /= 1.5f;
-                srExtra = "*";
             }
 
             (string heading, string content)[] stats;
@@ -138,9 +129,9 @@ namespace osu.Game.Tournament.Components
                 default:
                     stats = new (string heading, string content)[]
                     {
-                        ("CS", $"{beatmap.Difficulty.CircleSize:0.#}{hardRockExtra}"),
-                        ("AR", $"{ar:0.#}{hardRockExtra}"),
-                        ("OD", $"{beatmap.Difficulty.OverallDifficulty:0.#}{hardRockExtra}"),
+                        ("CS", $"{beatmap.Difficulty.CircleSize:0.#}"),
+                        ("AR", $"{ar:0.#}"),
+                        ("OD", $"{beatmap.Difficulty.OverallDifficulty:0.#}"),
                     };
                     break;
 
@@ -148,15 +139,15 @@ namespace osu.Game.Tournament.Components
                 case 3:
                     stats = new (string heading, string content)[]
                     {
-                        ("OD", $"{beatmap.Difficulty.OverallDifficulty:0.#}{hardRockExtra}"),
-                        ("HP", $"{beatmap.Difficulty.DrainRate:0.#}{hardRockExtra}")
+                        ("OD", $"{beatmap.Difficulty.OverallDifficulty:0.#}"),
+                        ("HP", $"{beatmap.Difficulty.DrainRate:0.#}")
                     };
                     break;
 
                 case 2:
                     stats = new (string heading, string content)[]
                     {
-                        ("CS", $"{beatmap.Difficulty.CircleSize:0.#}{hardRockExtra}"),
+                        ("CS", $"{beatmap.Difficulty.CircleSize:0.#}"),
                         ("AR", $"{ar:0.#}"),
                     };
                     break;
@@ -192,7 +183,7 @@ namespace osu.Game.Tournament.Components
                                         Children = new Drawable[]
                                         {
                                             new DiffPiece(stats),
-                                            new DiffPiece(("Star Rating", $"{beatmap.StarRating:0.00}{srExtra}"))
+                                            new DiffPiece(("SR", $"{beatmap.StarRating:0.00}"))
                                         }
                                     },
                                     new FillFlowContainer

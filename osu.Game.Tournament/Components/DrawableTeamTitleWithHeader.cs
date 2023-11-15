@@ -21,8 +21,7 @@ namespace osu.Game.Tournament.Components
                 Spacing = new Vector2(0, 5),
                 Children = new Drawable[]
                 {
-                    new DrawableTeamHeader(colour),
-                    new DrawableTeamTitle(team),
+                    new DrawableTeamHeader(colour, team?.FullName.Value),
                     new DrawableTeamSeed(team),
                 }
             };

@@ -7,12 +7,14 @@ using osu.Framework.Graphics.Containers;
 using osu.Game.Tournament.Components;
 using osu.Game.Tournament.Models;
 using osuTK;
+using System;
 
 namespace osu.Game.Tournament.Screens.Gameplay.Components
 {
     public partial class TeamDisplay : DrawableTournamentTeam
     {
         private readonly TeamScore score;
+        private TournamentSpriteTextWithBackground? pickemsSprite;
 
         private readonly TournamentSpriteTextWithBackground teamNameText;
 
@@ -35,7 +37,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             }
         }
 
-        public TeamDisplay(TournamentTeam? team, TeamColour colour, Bindable<int?> currentTeamScore, int pointsToWin)
+        public TeamDisplay(TournamentTeam? team, TournamentMatch? match, TeamColour colour, Bindable<int?> currentTeamScore, int pointsToWin)
             : base(team)
         {
             AutoSizeAxes = Axes.Both;
@@ -50,6 +52,22 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
             Flag.Anchor = anchor;
 
             Margin = new MarginPadding(20);
+            teamNameText = new TournamentSpriteTextWithBackground("");
+
+            pickemsSprite = new TournamentSpriteTextWithBackground("")
+            {
+                Scale = new Vector2(0.3f),
+                Origin = anchor,
+                Anchor = anchor
+            };
+
+            if (team != null)
+            {
+                team.PickemsRate.ValueChanged += val =>
+                {
+                    pickemsSprite.Text.Text = val.NewValue >= 0 ? $"Pickem rate: {Math.Round(val.NewValue, 2)}%" : "";
+                };
+            }
 
             InternalChild = new Container
             {
@@ -82,7 +100,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                         Anchor = anchor,
                                         Children = new Drawable[]
                                         {
-                                            new DrawableTeamHeader(colour)
+                                            new DrawableTeamHeader(colour, team?.FullName?.Value)
                                             {
                                                 Scale = new Vector2(0.75f),
                                                 Origin = anchor,
@@ -95,18 +113,7 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
                                             }
                                         }
                                     },
-                                    teamNameText = new TournamentSpriteTextWithBackground
-                                    {
-                                        Scale = new Vector2(0.5f),
-                                        Origin = anchor,
-                                        Anchor = anchor,
-                                    },
-                                    new DrawableTeamSeed(Team)
-                                    {
-                                        Scale = new Vector2(0.5f),
-                                        Origin = anchor,
-                                        Anchor = anchor,
-                                    },
+                                    pickemsSprite
                                 }
                             },
                         }

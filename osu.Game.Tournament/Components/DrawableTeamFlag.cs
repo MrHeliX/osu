@@ -16,15 +16,17 @@ namespace osu.Game.Tournament.Components
     public partial class DrawableTeamFlag : Container
     {
         private readonly TournamentTeam? team;
+        private readonly Vector2? size;
 
         [UsedImplicitly]
         private Bindable<string>? flag;
 
         private Sprite? flagSprite;
 
-        public DrawableTeamFlag(TournamentTeam? team)
+        public DrawableTeamFlag(TournamentTeam? team, Vector2? size = null)
         {
             this.team = team;
+            this.size = size;
         }
 
         [BackgroundDependencyLoader]
@@ -32,7 +34,7 @@ namespace osu.Game.Tournament.Components
         {
             if (team == null) return;
 
-            Size = new Vector2(75, 54);
+            Size = size ?? new Vector2(75, 54);
             Masking = true;
             CornerRadius = 5;
             Child = flagSprite = new Sprite

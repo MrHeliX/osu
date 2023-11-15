@@ -268,7 +268,7 @@ namespace osu.Game.Tournament.Screens.MapPool
                         flowCount = 0;
                     }
 
-                    if (++flowCount > 2)
+                    if (++flowCount > 3)
                     {
                         totalRows++;
                         flowCount = 1;

@@ -54,6 +54,8 @@ namespace osu.Game.Tournament.Models
 
         public Bindable<double> QualifiersCarryFactor = new Bindable<double>(0);
 
+        public Bindable<float> PickemsRate = new Bindable<float>(-1);
+
         [JsonProperty]
         public BindableList<TournamentUser> Players { get; } = new BindableList<TournamentUser>();
 
