@@ -35,6 +35,9 @@ namespace osu.Game.Tournament.Models
         /// </summary>
         public string CoverUrl { get; set; } = string.Empty;
 
+        [JsonProperty("QualifiersPerformance")]
+        public float QualifiersPerformance { get; set; } = 0f;
+
         public APIUser ToAPIUser()
         {
             var user = new APIUser
