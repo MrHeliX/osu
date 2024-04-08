@@ -20,6 +20,6 @@ namespace osu.Game.Tournament.Screens.Gameplay.Components
         }
 
         private void matchChanged(ValueChangedEvent<TournamentMatch?> match) =>
-            Text.Text = match.NewValue?.Round.Value?.Name.Value ?? "Unknown Round";
+            Text.Text = $"{match.NewValue?.Round.Value?.Name.Value}{(match.NewValue?.Losers.Value ?? false ? " (Loser Bracket)" : " (Winner Bracket)")}" ?? "Unknown Round";
     }
 }

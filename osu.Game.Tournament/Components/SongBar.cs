@@ -198,29 +198,7 @@ namespace osu.Game.Tournament.Components
                                             new DiffPiece(("Length", length.ToFormattedDuration().ToString())),
                                             new DiffPiece(("BPM", $"{bpm:0.#}")),
                                         }
-                                    },
-                                    new Container
-                                    {
-                                        RelativeSizeAxes = Axes.Both,
-                                        Children = new Drawable[]
-                                        {
-                                            new Box
-                                            {
-                                                Colour = Color4.Black,
-                                                RelativeSizeAxes = Axes.Both,
-                                                Alpha = 0.1f,
-                                            },
-                                            new OsuLogo
-                                            {
-                                                Triangles = false,
-                                                Scale = new Vector2(0.08f),
-                                                Margin = new MarginPadding(50),
-                                                X = -10,
-                                                Anchor = Anchor.CentreRight,
-                                                Origin = Anchor.CentreRight,
-                                            },
-                                        }
-                                    },
+                                    }
                                 },
                             }
                         }

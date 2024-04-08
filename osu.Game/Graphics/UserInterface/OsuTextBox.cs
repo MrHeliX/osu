@@ -269,12 +269,7 @@ namespace osu.Game.Graphics.UserInterface
 
         private SampleChannel? getSampleChannel(FeedbackSampleType feedbackSampleType)
         {
-            var samples = sampleMap[feedbackSampleType];
-
-            if (samples.Length == 0)
-                return null;
-
-            return samples[RNG.Next(0, samples.Length)]?.GetChannel();
+            return null;
         }
 
         protected void PlayFeedbackSample(FeedbackSampleType feedbackSample) => Schedule(() =>

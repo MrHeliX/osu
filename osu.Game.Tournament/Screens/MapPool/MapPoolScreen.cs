@@ -53,6 +53,7 @@ namespace osu.Game.Tournament.Screens.MapPool
                 },
                 mapFlows = new FillFlowContainer<FillFlowContainer<TournamentBeatmapPanel>>
                 {
+                    X = 120,
                     Y = 160,
                     Spacing = new Vector2(10, 10),
                     Direction = FillDirection.Vertical,
@@ -249,6 +250,7 @@ namespace osu.Game.Tournament.Screens.MapPool
                 FillFlowContainer<TournamentBeatmapPanel>? currentFlow = null;
                 string? currentMods = null;
                 int flowCount = 0;
+                int modIndex = 0;
 
                 foreach (var b in CurrentMatch.Value.Round.Value.Beatmaps)
                 {
@@ -259,8 +261,10 @@ namespace osu.Game.Tournament.Screens.MapPool
                             Spacing = new Vector2(10, 5),
                             Direction = FillDirection.Full,
                             RelativeSizeAxes = Axes.X,
-                            AutoSizeAxes = Axes.Y
+                            AutoSizeAxes = Axes.Y,
                         });
+
+                        modIndex = 1;
 
                         currentMods = b.Mods;
 
@@ -274,12 +278,14 @@ namespace osu.Game.Tournament.Screens.MapPool
                         flowCount = 1;
                     }
 
-                    currentFlow.Add(new TournamentBeatmapPanel(b.Beatmap, b.Mods)
+                    currentFlow.Add(new TournamentBeatmapPanel(b.Beatmap, b.Mods, modIndex)
                     {
-                        Anchor = Anchor.TopCentre,
-                        Origin = Anchor.TopCentre,
+                        Anchor = Anchor.CentreLeft,
+                        Origin = Anchor.CentreLeft,
                         Height = 42,
                     });
+
+                    modIndex++;
                 }
             }
 

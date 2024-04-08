@@ -24,18 +24,21 @@ namespace osu.Game.Tournament.Components
 
         private readonly string mod;
 
+        private readonly int modIndex;
+
         public const float HEIGHT = 50;
 
         private readonly Bindable<TournamentMatch?> currentMatch = new Bindable<TournamentMatch?>();
 
         private Box flash = null!;
 
-        public TournamentBeatmapPanel(IBeatmapInfo? beatmap, string mod = "")
+        public TournamentBeatmapPanel(IBeatmapInfo? beatmap, string mod = "", int modIndex = 0)
         {
             Beatmap = beatmap;
             this.mod = mod;
+            this.modIndex = modIndex;
 
-            Width = 400;
+            Width = 300;
             Height = HEIGHT;
         }
 
@@ -71,14 +74,21 @@ namespace osu.Game.Tournament.Components
                     {
                         new TournamentSpriteText
                         {
-                            Text = Beatmap?.GetDisplayTitleRomanisable(false, false) ?? (LocalisableString)@"unknown",
+                            Text = !string.IsNullOrEmpty(mod) ? $"{mod}{modIndex}" : Beatmap?.GetDisplayTitleRomanisable(false, false) ?? (LocalisableString)@"unknown",
                             Font = OsuFont.Torus.With(weight: FontWeight.Bold),
                         },
                         new FillFlowContainer
                         {
                             AutoSizeAxes = Axes.Both,
                             Direction = FillDirection.Horizontal,
-                            Children = new Drawable[]
+                            Children = !string.IsNullOrEmpty(mod) ? new Drawable[]
+                            {
+                                new TournamentSpriteText
+                                {
+                                    Text = Beatmap?.GetDisplayTitleRomanisable(false, false) ?? (LocalisableString)@"unknown",
+                                    Font = OsuFont.Torus.With(weight: FontWeight.Regular, size: 14)
+                                },
+                            } : new Drawable[]
                             {
                                 new TournamentSpriteText
                                 {
@@ -115,18 +125,6 @@ namespace osu.Game.Tournament.Components
                     Alpha = 0,
                 },
             });
-
-            if (!string.IsNullOrEmpty(mod))
-            {
-                AddInternal(new TournamentModIcon(mod)
-                {
-                    Anchor = Anchor.CentreRight,
-                    Origin = Anchor.CentreRight,
-                    Margin = new MarginPadding(10),
-                    Width = 60,
-                    RelativeSizeAxes = Axes.Y,
-                });
-            }
         }
 
         private void matchChanged(ValueChangedEvent<TournamentMatch?> match)
