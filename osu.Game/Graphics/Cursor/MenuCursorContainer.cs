@@ -47,7 +47,6 @@ namespace osu.Game.Graphics.Cursor
         private Vector2 lastMovePosition;
 
         private Bindable<bool> cursorRotate = null!;
-        private Sample tapSample = null!;
 
         private MouseInputDetector mouseInputDetector = null!;
 
@@ -60,8 +59,6 @@ namespace osu.Game.Graphics.Cursor
 
             if (screenshotManager != null)
                 screenshotCursorVisibility.BindTo(screenshotManager.CursorVisibility);
-
-            tapSample = audio.Samples.Get(@"UI/cursor-tap");
 
             Add(mouseInputDetector = new MouseInputDetector());
         }
@@ -234,15 +231,7 @@ namespace osu.Game.Graphics.Cursor
 
         private void playTapSample(double baseFrequency = 1f)
         {
-            const float random_range = 0.02f;
-            SampleChannel channel = tapSample.GetChannel();
 
-            // Scale to [-0.75, 0.75] so that the sample isn't fully panned left or right (sounds weird)
-            channel.Balance.Value = ((activeCursor.X / DrawWidth) * 2 - 1) * OsuGameBase.SFX_STEREO_STRENGTH;
-            channel.Frequency.Value = baseFrequency - (random_range / 2f) + RNG.NextDouble(random_range);
-            channel.Volume.Value = baseFrequency;
-
-            channel.Play();
         }
 
         public partial class Cursor : Container

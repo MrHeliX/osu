@@ -21,7 +21,7 @@ namespace osu.Desktop
     public static class Program
     {
 #if DEBUG
-        private const string base_game_name = @"osu-development";
+        private const string base_game_name = @"osu";
 #else
         private const string base_game_name = @"osu";
 #endif
@@ -77,7 +77,7 @@ namespace osu.Desktop
             string cwd = Environment.CurrentDirectory;
 
             string gameName = base_game_name;
-            bool tournamentClient = false;
+            bool tournamentClient = true;
 
             foreach (string arg in args)
             {

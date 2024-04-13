@@ -73,7 +73,7 @@ namespace osu.Game.Graphics.UserInterface
 
         private readonly Box flashLayer;
 
-        protected OsuButton(HoverSampleSet? hoverSounds = HoverSampleSet.Button)
+        protected OsuButton(HoverSampleSet? hoverSounds = null)
         {
             Height = 40;
 
@@ -114,9 +114,6 @@ namespace osu.Game.Graphics.UserInterface
                     },
                 }
             });
-
-            if (hoverSounds.HasValue)
-                AddInternal(new HoverClickSounds(hoverSounds.Value) { Enabled = { BindTarget = Enabled } });
         }
 
         [BackgroundDependencyLoader]

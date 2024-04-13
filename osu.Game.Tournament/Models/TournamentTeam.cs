@@ -47,13 +47,30 @@ namespace osu.Game.Tournament.Models
             }
         }
 
+        public Bindable<int> GlobalRank = new Bindable<int>(0);
+        public Bindable<int> CountryRank = new Bindable<int>(0);
+        public Bindable<string> Country = new Bindable<string>(string.Empty);
+
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
+        public Bindable<string> TotalPoints = new Bindable<string>(string.Empty);
+
+        public class EarlierPlacement
+        {
+            public string Acronym { get; set; } = string.Empty;
+            public int Result { get; set; } = 0;
+            public int Seed { get; set; } = 0;
+        };
+
+        public Bindable<EarlierPlacement[]> EarlierPlacings = new Bindable<EarlierPlacement[]>(new EarlierPlacement[1]);
 
         public Bindable<int> LastYearPlacing = new BindableInt
         {
             MinValue = 0,
             MaxValue = 256
         };
+
+        public Bindable<float> PickemsRate = new Bindable<float>(-1);
+        public Bindable<float[]> PickemsDetails = new Bindable<float[]>(new float[10]);
 
         [JsonProperty]
         public BindableList<TournamentUser> Players { get; } = new BindableList<TournamentUser>();

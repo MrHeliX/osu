@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Net.Http;
 using Newtonsoft.Json;
 using osu.Framework.Bindables;
+using osu.Framework.Extensions;
 using osu.Game.Tournament.Screens.Ladder.Components;
 
 namespace osu.Game.Tournament.Models
@@ -18,6 +20,17 @@ namespace osu.Game.Tournament.Models
     public class TournamentMatch
     {
         public int ID;
+        public int DatabaseId;
+
+        public class MatchPickems
+        {
+            public float Player1 { get; set; }
+            public float Player2 { get; set; }
+            public float[] Player1Details { get; set; } = [];
+            public float[] Player2Details { get; set; } = [];
+        }
+
+        private static HttpClient client = new HttpClient();
 
         public List<string> Acronyms
         {
@@ -125,6 +138,37 @@ namespace osu.Game.Tournament.Models
             Team2.Value = null;
             Completed.Value = false;
             PicksBans.Clear();
+        }
+
+        public async void RetrievePickemsResults()
+        {
+            if (DatabaseId == 0) return;
+            string url = @"https://tourney-api.huismetbenen.nl/pickems/get-by-match/" + DatabaseId;
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
+            requestMessage.Headers.Add("ContentType", "application/json");
+            requestMessage.Headers.Add("x-tourney-id", "18");
+            var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+            var result = response.Content.ReadAsStringAsync();
+
+            if (result != null)
+            {
+                MatchPickems? pickems = JsonConvert.DeserializeObject<MatchPickems>(result.GetResultSafely());
+                if (pickems == null) return;
+
+                if (Team1.Value != null)
+                {
+                    Team1.Value.PickemsRate.Value = pickems.Player1;
+                    Team1.Value.PickemsDetails.Value = pickems.Player1Details;
+                    Team1.Value.PickemsRate.TriggerChange();
+                }
+                if (Team2.Value != null)
+                {
+                    Team2.Value.PickemsRate.Value = pickems.Player2;
+                    Team2.Value.PickemsDetails.Value = pickems.Player2Details;
+                    Team2.Value.PickemsRate.TriggerChange();
+                }
+            }
         }
     }
 }

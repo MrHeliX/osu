@@ -24,7 +24,7 @@ namespace osu.Game.Utils
             }
             catch (ArgumentException)
             {
-                return input.Humanize(culture: new CultureInfo("en-US"));
+                return input.Humanize(culture: new CultureInfo("nl-NL"));
             }
         }
 
@@ -46,7 +46,7 @@ namespace osu.Game.Utils
             }
             catch (ArgumentException)
             {
-                return input.Humanize(culture: new CultureInfo("en-US"), precision: precision, maxUnit: maxUnit, minUnit: minUnit);
+                return input.Humanize(culture: new CultureInfo("nl-NL"), precision: precision, maxUnit: maxUnit, minUnit: minUnit);
             }
         }
     }

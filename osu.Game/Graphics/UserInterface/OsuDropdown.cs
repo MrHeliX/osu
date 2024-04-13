@@ -4,7 +4,6 @@
 using System.Linq;
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Audio.Sample;
 using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -50,9 +49,6 @@ namespace osu.Game.Graphics.UserInterface
         {
             public override bool HandleNonPositionalInput => State == MenuState.Open;
 
-            private Sample? sampleOpen;
-            private Sample? sampleClose;
-
             // todo: this uses the same styling as OsuMenu. hopefully we can just use OsuMenu in the future with some refactoring
             public OsuDropdownMenu()
             {
@@ -71,9 +67,6 @@ namespace osu.Game.Graphics.UserInterface
                 BackgroundColour = colourProvider?.Background5 ?? Color4.Black.Opacity(0.5f);
                 HoverColour = colourProvider?.Light4 ?? colours.PinkDarker;
                 SelectionColour = colourProvider?.Background3 ?? colours.PinkDarker.Opacity(0.5f);
-
-                sampleOpen = audio.Samples.Get(@"UI/dropdown-open");
-                sampleClose = audio.Samples.Get(@"UI/dropdown-close");
             }
 
             // todo: this shouldn't be required after https://github.com/ppy/osu-framework/issues/4519 is fixed.
@@ -84,7 +77,6 @@ namespace osu.Game.Graphics.UserInterface
             {
                 wasOpened = true;
                 this.FadeIn(300, Easing.OutQuint);
-                sampleOpen?.Play();
             }
 
             protected override void AnimateClose()
@@ -92,7 +84,6 @@ namespace osu.Game.Graphics.UserInterface
                 if (wasOpened)
                 {
                     this.FadeOut(300, Easing.OutQuint);
-                    sampleClose?.Play();
                 }
             }
 

@@ -5,10 +5,7 @@
 
 using osu.Framework.Allocation;
 using osu.Framework.Audio;
-using osu.Framework.Audio.Sample;
-using osu.Framework.Extensions;
 using osu.Framework.Graphics;
-using osu.Framework.Utils;
 
 namespace osu.Game.Graphics.UserInterface
 {
@@ -18,8 +15,6 @@ namespace osu.Game.Graphics.UserInterface
     /// </summary>
     public partial class HoverSounds : HoverSampleDebounceComponent
     {
-        private Sample sampleHover;
-
         protected readonly HoverSampleSet SampleSet;
 
         public HoverSounds(HoverSampleSet sampleSet = HoverSampleSet.Default)
@@ -31,14 +26,12 @@ namespace osu.Game.Graphics.UserInterface
         [BackgroundDependencyLoader]
         private void load(AudioManager audio)
         {
-            sampleHover = audio.Samples.Get($@"UI/{SampleSet.GetDescription()}-hover")
-                          ?? audio.Samples.Get($@"UI/{HoverSampleSet.Default.GetDescription()}-hover");
+
         }
 
         public override void PlayHoverSample()
         {
-            sampleHover.Frequency.Value = 0.98 + RNG.NextDouble(0.04);
-            sampleHover.Play();
+
         }
     }
 }
