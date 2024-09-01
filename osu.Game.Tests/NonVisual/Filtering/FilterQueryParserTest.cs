@@ -2,10 +2,13 @@
 // See the LICENCE file in the repository root for full licence text.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using osu.Framework.Bindables;
 using osu.Game.Beatmaps;
 using osu.Game.Rulesets.Filter;
+using osu.Game.Rulesets.Mods;
 using osu.Game.Screens.Select;
 using osu.Game.Screens.Select.Carousel;
 using osu.Game.Screens.Select.Filter;
@@ -514,6 +517,8 @@ namespace osu.Game.Tests.NonVisual.Filtering
 
                 return false;
             }
+
+            public bool FilterMayChangeFromMods(ValueChangedEvent<IReadOnlyList<Mod>> mods) => false;
         }
 
         private static readonly object[] correct_date_query_examples =
@@ -532,7 +537,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [TestCaseSource(nameof(correct_date_query_examples))]
         public void TestValidDateQueries(string dateQuery)
         {
-            string query = $"played<{dateQuery} time";
+            string query = $"lastplayed<{dateQuery} time";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.AreEqual(true, filterCriteria.LastPlayed.HasFilter);
@@ -566,7 +571,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [Test]
         public void TestGreaterDateQuery()
         {
-            const string query = "played>50";
+            const string query = "lastplayed>50";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.That(filterCriteria.LastPlayed.Max, Is.Not.Null);
@@ -579,7 +584,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [Test]
         public void TestLowerDateQuery()
         {
-            const string query = "played<50";
+            const string query = "lastplayed<50";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.That(filterCriteria.LastPlayed.Max, Is.Null);
@@ -592,7 +597,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [Test]
         public void TestBothSidesDateQuery()
         {
-            const string query = "played>3M played<1y6M";
+            const string query = "lastplayed>3M lastplayed<1y6M";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.That(filterCriteria.LastPlayed.Min, Is.Not.Null);
@@ -606,7 +611,7 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [Test]
         public void TestEqualDateQuery()
         {
-            const string query = "played=50";
+            const string query = "lastplayed=50";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.AreEqual(false, filterCriteria.LastPlayed.HasFilter);
@@ -615,11 +620,34 @@ namespace osu.Game.Tests.NonVisual.Filtering
         [Test]
         public void TestOutOfRangeDateQuery()
         {
-            const string query = "played<10000y";
+            const string query = "lastplayed<10000y";
             var filterCriteria = new FilterCriteria();
             FilterQueryParser.ApplyQueries(filterCriteria, query);
             Assert.AreEqual(true, filterCriteria.LastPlayed.HasFilter);
             Assert.AreEqual(DateTimeOffset.MinValue.AddMilliseconds(1), filterCriteria.LastPlayed.Min);
+        }
+
+        private static readonly object[] played_query_tests =
+        {
+            new object[] { "0", DateTimeOffset.MinValue, true },
+            new object[] { "0", DateTimeOffset.Now, false },
+            new object[] { "false", DateTimeOffset.MinValue, true },
+            new object[] { "false", DateTimeOffset.Now, false },
+
+            new object[] { "1", DateTimeOffset.MinValue, false },
+            new object[] { "1", DateTimeOffset.Now, true },
+            new object[] { "true", DateTimeOffset.MinValue, false },
+            new object[] { "true", DateTimeOffset.Now, true },
+        };
+
+        [Test]
+        [TestCaseSource(nameof(played_query_tests))]
+        public void TestPlayedQuery(string query, DateTimeOffset reference, bool matched)
+        {
+            var filterCriteria = new FilterCriteria();
+            FilterQueryParser.ApplyQueries(filterCriteria, $"played={query}");
+            Assert.AreEqual(true, filterCriteria.LastPlayed.HasFilter);
+            Assert.AreEqual(matched, filterCriteria.LastPlayed.IsInRange(reference));
         }
     }
 }
