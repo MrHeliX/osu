@@ -147,7 +147,7 @@ namespace osu.Game.Tournament.Models
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             requestMessage.Headers.Add("ContentType", "application/json");
-            requestMessage.Headers.Add("x-tourney-id", "18");
+            requestMessage.Headers.Add("x-tourney-id", "25");
             var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
             var result = response.Content.ReadAsStringAsync();
 

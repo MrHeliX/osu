@@ -53,6 +53,8 @@ namespace osu.Game.Tournament.Models
 
         public Bindable<string> Seed = new Bindable<string>(string.Empty);
         public Bindable<string> TotalPoints = new Bindable<string>(string.Empty);
+        public Bindable<string> Opponent = new Bindable<string>(string.Empty);
+        public Bindable<int> SupporterCount = new Bindable<int>(0);
 
         public class EarlierPlacement
         {

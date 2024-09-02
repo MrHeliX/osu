@@ -294,6 +294,18 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                     Text = $"Seed #{team.Seed.Value}",
                     Font = OsuFont.Torus.With(size: 26)
                 });
+                fill.Add(new TournamentSpriteText
+                {
+                    Text = int.Parse(team.Seed.Value) > 32 ? "Niet gekwalificeerd" : $"Tegenstander: {team.Opponent.Value}",
+                    Font = OsuFont.Torus.With(size: 26)
+                });
+                fill.Add(new TournamentSpriteText
+                {
+                    Text = $"{team.SupporterCount.Value} supporter{(team.SupporterCount.Value != 1 ? "s" : "")}",
+                    Font = OsuFont.Torus.With(size: 20),
+                    Margin = new MarginPadding { Top = 15 },
+                    Colour = new OsuColour().Orange0
+                });
                 fill.Add(new Container { Margin = new MarginPadding { Bottom = 15 } });
             }
 
