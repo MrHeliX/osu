@@ -16,12 +16,12 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Skills
     /// </summary>
     public class Flashlight : StrainSkill
     {
-        private readonly bool hasHiddenMod;
+        public readonly bool HasHiddenMod;
 
         public Flashlight(Mod[] mods)
             : base(mods)
         {
-            hasHiddenMod = mods.Any(m => m is OsuModHidden);
+            HasHiddenMod = mods.Any(m => m is OsuModHidden);
         }
 
         private double skillMultiplier => 0.05512;
@@ -36,7 +36,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty.Skills
         protected override double StrainValueAt(DifficultyHitObject current)
         {
             currentStrain *= strainDecay(current.DeltaTime);
-            currentStrain += FlashlightEvaluator.EvaluateDifficultyOf(current, hasHiddenMod) * skillMultiplier;
+            currentStrain += FlashlightEvaluator.EvaluateDifficultyOf(current, HasHiddenMod) * skillMultiplier;
 
             return currentStrain;
         }

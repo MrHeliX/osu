@@ -79,6 +79,10 @@ namespace osu.Game.Rulesets.Osu.Difficulty
         /// </summary>
         public int SpinnerCount { get; set; }
 
+        public double StarRatingWithFlashlight { get; set; }
+
+        public double StarRatingWithFlashlightHidden { get; set; }
+
         public override IEnumerable<(int attributeId, object value)> ToDatabaseAttributes()
         {
             foreach (var v in base.ToDatabaseAttributes())
