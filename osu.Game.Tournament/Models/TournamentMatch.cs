@@ -32,6 +32,7 @@ namespace osu.Game.Tournament.Models
 
         private static HttpClient client = new HttpClient();
 
+        [JsonIgnore]
         public List<string> Acronyms
         {
             get

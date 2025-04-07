@@ -56,8 +56,8 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
         [Cached]
         private readonly OverlayColourProvider colourProvider = new OverlayColourProvider(OverlayColourScheme.Plum);
 
-        [Cached]
-        private readonly OnlinePlayBeatmapAvailabilityTracker beatmapAvailabilityTracker = new OnlinePlayBeatmapAvailabilityTracker();
+        [Cached(typeof(OnlinePlayBeatmapAvailabilityTracker))]
+        private readonly DailyChallengeBeatmapAvailabilityTracker beatmapAvailabilityTracker;
 
         private bool shouldBePlayingMusic;
 
@@ -69,6 +69,9 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
 
         [Resolved]
         private MusicController musicController { get; set; } = null!;
+
+        [Resolved]
+        private SessionStatics statics { get; set; } = null!;
 
         private Sample? dateWindupSample;
         private Sample? dateImpactSample;
@@ -88,6 +91,8 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
             item = room.Playlist.Single();
 
             ValidForResume = false;
+
+            beatmapAvailabilityTracker = new DailyChallengeBeatmapAvailabilityTracker(item);
         }
 
         protected override BackgroundScreen CreateBackground() => new DailyChallengeIntroBackgroundScreen(colourProvider);
@@ -166,7 +171,7 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
                                         {
                                             Anchor = Anchor.Centre,
                                             Origin = Anchor.Centre,
-                                            Text = room.Name.Value.Split(':', StringSplitOptions.TrimEntries).Last(),
+                                            Text = room.Name.Split(':', StringSplitOptions.TrimEntries).Last(),
                                             Margin = new MarginPadding { Horizontal = 10f, Vertical = 5f },
                                             Shear = new Vector2(-OsuGame.SHEAR, 0f),
                                             Font = OsuFont.GetFont(size: 32, weight: FontWeight.Light, typeface: Typeface.TorusAlternate),
@@ -349,7 +354,6 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
         {
             base.OnEntering(e);
 
-            beatmapAvailabilityTracker.SelectedItem.Value = item;
             beatmapAvailabilityTracker.Availability.BindValueChanged(availability =>
             {
                 if (shouldBePlayingMusic && availability.NewValue.State == DownloadState.LocallyAvailable)
@@ -462,6 +466,8 @@ namespace osu.Game.Screens.OnlinePlay.DailyChallenge
                         {
                             Schedule(() =>
                             {
+                                statics.SetValue(Static.DailyChallengeIntroPlayed, true);
+
                                 if (this.IsCurrentScreen())
                                     this.Push(new DailyChallenge(room));
                             });

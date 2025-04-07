@@ -223,15 +223,28 @@ namespace osu.Game.Overlays.Mods
                 inputManager = GetContainingInputManager()!;
             }
 
+            private double timeUntilCollapse;
+
+            private const double collapse_grace_time = 180;
+            private const float collapse_grace_position = 40;
+
             protected override void Update()
             {
                 base.Update();
 
-                if (ExpandedState.Value == ModCustomisationPanelState.ExpandedByHover
-                    && !ReceivePositionalInputAt(inputManager.CurrentState.Mouse.Position)
-                    && inputManager.DraggedDrawable == null)
+                if (ExpandedState.Value == ModCustomisationPanelState.Expanded)
                 {
-                    ExpandedState.Value = ModCustomisationPanelState.Collapsed;
+                    bool canCollapse = !DrawRectangle.Inflate(new Vector2(collapse_grace_position)).Contains(ToLocalSpace(inputManager.CurrentState.Mouse.Position))
+                                       && inputManager.DraggedDrawable == null;
+
+                    if (canCollapse)
+                    {
+                        if (timeUntilCollapse <= 0)
+                            ExpandedState.Value = ModCustomisationPanelState.Collapsed;
+                        timeUntilCollapse -= Time.Elapsed;
+                    }
+                    else
+                        timeUntilCollapse = collapse_grace_time;
                 }
             }
         }
@@ -239,8 +252,8 @@ namespace osu.Game.Overlays.Mods
         public enum ModCustomisationPanelState
         {
             Collapsed = 0,
-            ExpandedByHover = 1,
-            Expanded = 2,
+            Expanded = 1,
+            ExpandedByMod = 2,
         }
     }
 }
