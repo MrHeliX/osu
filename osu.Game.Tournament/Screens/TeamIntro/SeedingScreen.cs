@@ -222,7 +222,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                     {
                         row.Add(new Sprite
                         {
-                            Texture = textures.Get($"Mods/{mods.ToLowerInvariant()}"),
+                            Texture = textures.Get($"Mods/{mods}"),
                             Scale = new Vector2(0.5f)
                         });
                     }
@@ -296,7 +296,7 @@ namespace osu.Game.Tournament.Screens.TeamIntro
                 });
                 fill.Add(new TournamentSpriteText
                 {
-                    Text = int.Parse(team.Seed.Value) > 32 ? "Niet gekwalificeerd" : $"Tegenstander: {team.Opponent.Value}",
+                    Text = int.Parse(team.Seed.Value) > 56 ? "Niet gekwalificeerd" : $"Tegenstander: {team.Opponent.Value}",
                     Font = OsuFont.Torus.With(size: 26)
                 });
                 fill.Add(new TournamentSpriteText

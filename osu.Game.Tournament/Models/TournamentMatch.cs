@@ -144,11 +144,11 @@ namespace osu.Game.Tournament.Models
         public async void RetrievePickemsResults()
         {
             if (DatabaseId == 0) return;
-            string url = @"https://tourney-api.huismetbenen.nl/pickems/get-by-match/" + DatabaseId;
+            string url = @"https://api.tourney.huismetbenen.nl/pickems/get-by-match/" + DatabaseId;
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
             requestMessage.Headers.Add("ContentType", "application/json");
-            requestMessage.Headers.Add("x-tourney-id", "25");
+            requestMessage.Headers.Add("x-tourney-id", "30");
             var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
             var result = response.Content.ReadAsStringAsync();
 
